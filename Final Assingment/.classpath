@@ -6,5 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/camst/Downloads/Unit 9 JDBC Prepare Statement/Unit 9 JDBC Prepare Statement/lib/mariadb-java-client-3.5.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
