@@ -72,7 +72,8 @@ public class ItemManager {
 		}
 	}
 	
-	//dont forget to add error handling
+	// dont forget to add error handling
+	// also needs to be improved
 	private void addItem() {
 		System.out.println("Enter item type: ");
 		String itemType = keyboard.nextLine();
@@ -88,7 +89,7 @@ public class ItemManager {
 		System.out.println("Enter publisher: ");
 		String publisher  = keyboard.nextLine();
 		
-		String sqlStmt = "INSERT INTO items (itemType, id, title, author, genre, publisher) VALUES (?, ?, ?, ?, ?)";
+		String sqlStmt = "INSERT INTO items (itemType, id, title, author, genre, publisher) VALUES (?, ?, ?, ?, ?, ?)";
 		
 		try
 		{
