@@ -14,14 +14,12 @@ public class ItemManager {
 	private Connection conn;
 	private Statement stmt;
 	
-	private Scanner keyboard;
 	
 	public ItemManager()
 	{
 		try
 		{
 			connect();
-			displayMenu();
 		} catch (SQLException e)
 		{
 			System.out.println(e.getMessage());
@@ -37,57 +35,11 @@ public class ItemManager {
 		stmt= conn.createStatement();	
 	}
 	
-	private void displayMenu() {
-		int choice = 0;
-		keyboard = new Scanner(System.in);
-		
-		while (choice != 5) {
-			System.out.println("1. Add Item.");
-			System.out.println("2. Edit Item.");
-			System.out.println("3. Remove Item.");
-			System.out.println("4. Display Items by Category.");
-			System.out.println("5. Exit.");
-			
-			choice = Integer.parseInt(keyboard.nextLine());
-			switch(choice)
-			{
-				case 1: 
-					addItem();
-					break;
-				case 2:
-					editItem();
-					break;
-				case 3:
-					removeItem();
-					break;
-				case 4:
-					displayByCategory();;
-					break;
-				case 5:
-					disconnect();
-					break;
-				default:
-					System.out.println("Incorrect choice. Enter 1 to 5.");
-			}
-		}
-	}
 	
 	// dont forget to add error handling
 	// also needs to be improved
-	private void addItem() {
-		System.out.println("Enter item type: ");
-		String itemType = keyboard.nextLine();
-		System.out.println("Enter id: ");
-		long id  = keyboard.nextLong();
-		keyboard.nextLine(); // scanner bugs out if this line isnt added
-		System.out.println("Enter title: ");
-		String title = keyboard.nextLine();
-		System.out.println("Enter author: ");
-		String author = keyboard.nextLine();
-		System.out.println("Enter genre: ");
-		String genre  = keyboard.nextLine();
-		System.out.println("Enter publisher: ");
-		String publisher  = keyboard.nextLine();
+	void addItem(String itemType, int id, String title, String author, String genre, String publisher) {
+
 		
 		String sqlStmt = "INSERT INTO items (itemType, id, title, author, genre, publisher) VALUES (?, ?, ?, ?, ?, ?)";
 		
@@ -95,16 +47,13 @@ public class ItemManager {
 		{
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, itemType);
-			stmt.setDouble(2, id);
+			stmt.setInt(2, id);
 			stmt.setString(3, title);
 			stmt.setString(4, author);
 			stmt.setString(5, genre);
 			stmt.setString(6, publisher);
 			// Execute the insert operation
-	        int row = stmt.executeUpdate();
-
-	        // Show how many rows were inserted
-	        System.out.println(row + " record inserted.");
+	        stmt.executeUpdate();
 			
 		} catch (SQLException e)
 		{
@@ -112,31 +61,68 @@ public class ItemManager {
 		}
 	}
 	
-	private void editItem() {
+	
+	void removeItem(int id) {
+		String sqlStmt = "DELETE FROM items WHERE id = ?;";
+		
+		try
+		{
+			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
+			stmt.setInt(1, id);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	void displayByCategory() {
 		
 	}
 	
-	private void removeItem() {
-		
-	}
-	
-	private void displayByCategory() {
-		
-	}
-	
-	private void disconnect()
+	void disconnect()
 	{
 		try
 		{
 			conn.close();
 			System.out.println("Connection closed!");
 			System.out.println("Goodbye!");
-			keyboard.close();
 		} catch (SQLException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+
+	//edit item
+	public void editItemTitle(String title) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void editAuthor(String author) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void editGenre(String genre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void editPublisher(String publisher) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void editItemType(String itemType) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void displayAll() {
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -2,12 +2,12 @@ package problemdomain;
 
 public abstract class Item {
 	private String title;
-	private long id;
+	private int id;
 	private String author;
 	private String genre;
 	private String publisher;
 	
-	public Item(String title, long id, String author, String genre, String publisher) {
+	public Item(String title, int id, String author, String genre, String publisher) {
 		super();
 		this.title = title;
 		this.id = id;
@@ -40,7 +40,7 @@ public abstract class Item {
 		this.title = title;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
