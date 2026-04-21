@@ -68,7 +68,7 @@ public class UIManager {
 	}
 	
 	void editItemMenu() {
-		System.out.println("/nWhat would you like to edit?");
+		System.out.println("\nWhat would you like to edit?");
 		System.out.println("1. Title");
 		System.out.println("2. Author");
 		System.out.println("3. Genre");
@@ -76,32 +76,42 @@ public class UIManager {
 		System.out.println("5. Item Type");
 		
 		int choice = Integer.parseInt(keyboard.nextLine());
+		int item_id = 0;
+		if (choice >= 1 && choice <= 5) {
+			System.out.println("Enter Id of Item: ");
+			item_id = Integer.parseInt(keyboard.nextLine());
+		}
 		switch(choice)
 		{
 			case 1: 
 				System.out.println("Etner new Title: ");
 				String title = keyboard.nextLine();
-				im.editItemTitle(title);
+				im.editItemTitle(item_id, title);
+				System.out.println("Title updated!");
 				break;
 			case 2:
 				System.out.println("Enter new Author: ");
 				String author = keyboard.nextLine();
-				im.editAuthor(author);
+				im.editAuthor(item_id, author);
+				System.out.println("Author updated!");
 				break;
 			case 3:
 				System.out.println("Enter new Genre: ");
 				String genre = keyboard.nextLine();
-				im.editGenre(genre);
+				im.editGenre(item_id, genre);
+				System.out.println("Genre updated!");
 				break;
 			case 4:
 				System.out.println("Enter new Publisher: ");
 				String publisher = keyboard.nextLine();
-				im.editPublisher(publisher);
+				im.editPublisher(item_id, publisher);
+				System.out.println("Publisher updated!");
 				break;
 			case 5:
 				System.out.println("Enter new Item Type: ");
 				String itemType = keyboard.nextLine();
-				im.editItemType(itemType);
+				im.editItemType(item_id, itemType);
+				System.out.println("Item type updated!");
 				break;
 			default:
 				System.out.println("Incorrect choice. Enter 1 to 5.");

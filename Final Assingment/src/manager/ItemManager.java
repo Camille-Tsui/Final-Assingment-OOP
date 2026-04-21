@@ -80,6 +80,10 @@ public class ItemManager {
 		
 	}
 	
+	public void displayAll() {
+		
+	}
+	
 	void disconnect()
 	{
 		try
@@ -96,33 +100,77 @@ public class ItemManager {
 	}
 
 	//edit item
-	public void editItemTitle(String title) {
-		// TODO Auto-generated method stub
+	public void editItemTitle(int id, String title) {
+		String sqlStmt = "UPDATE items SET title = ? WHERE id = ?";
+		try
+		{
+			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
+			stmt.setString(1, title);
+			stmt.setInt(2, id);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void editAuthor(int id, String author) {
+		String sqlStmt = "UPDATE items SET author = ? WHERE id = ?";
+		try
+		{
+			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
+			stmt.setString(1, author);
+			stmt.setInt(2, id);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 		
 	}
 
-	public void editAuthor(String author) {
-		// TODO Auto-generated method stub
+	public void editGenre(int id, String genre) {
+		String sqlStmt = "UPDATE items SET genre = ? WHERE id = ?";
+		try
+		{
+			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
+			stmt.setString(1, genre);
+			stmt.setInt(2, id);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 		
 	}
 
-	public void editGenre(String genre) {
-		// TODO Auto-generated method stub
+	public void editPublisher(int id, String publisher) {
+		String sqlStmt = "UPDATE items SET publisher = ? WHERE id = ?";
+		try
+		{
+			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
+			stmt.setString(1, publisher);
+			stmt.setInt(2, id);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 		
 	}
 
-	public void editPublisher(String publisher) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void editItemType(String itemType) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void displayAll() {
-		// TODO Auto-generated method stub
+	public void editItemType(int id, String itemType) {
+		String sqlStmt = "UPDATE items SET itemType = ? WHERE id = ?";
+		try
+		{
+			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
+			stmt.setString(1, itemType);
+			stmt.setInt(2, id);
+			stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 		
 	}
 }
