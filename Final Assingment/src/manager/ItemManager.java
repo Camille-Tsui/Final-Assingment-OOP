@@ -1,7 +1,10 @@
 package manager;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import problemdomain.Item;
 
 public class ItemManager {
 	private static final String SERVER = "localhost";
@@ -14,12 +17,14 @@ public class ItemManager {
 	private Connection conn;
 	private Statement stmt;
 	
+	ArrayList<Item> items = new ArrayList<>();
 	
 	public ItemManager()
 	{
 		try
 		{
 			connect();
+			loadItems();
 		} catch (SQLException e)
 		{
 			System.out.println(e.getMessage());
@@ -35,6 +40,27 @@ public class ItemManager {
 		stmt= conn.createStatement();	
 	}
 	
+	public void loadItems() {
+		String sqlStatement = "SELECT * FROM items;";
+		items.clear();
+		try
+		{
+			ResultSet rs = stmt.executeQuery(sqlStatement);
+			
+			while (rs.next()) {
+				Item item = new Item (
+						rs.getInt("id"),
+						rs.getString("title"),
+						rs.getString("author"),
+						rs.getString("genre"),
+						rs.getString("publisher")
+						);
+				items.add(item);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
 	
 	// dont forget to add error handling
 	// also needs to be improved
@@ -54,6 +80,7 @@ public class ItemManager {
 			stmt.setString(6, publisher);
 			// Execute the insert operation
 	        stmt.executeUpdate();
+	        loadItems();
 			
 		} catch (SQLException e)
 		{
@@ -70,6 +97,7 @@ public class ItemManager {
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setInt(1, id);
 			stmt.executeUpdate();
+			loadItems();
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -80,8 +108,11 @@ public class ItemManager {
 		
 	}
 	
+	
 	public void displayAll() {
-		
+		for (Item item : items) {
+			System.out.println(item);
+		}
 	}
 	
 	void disconnect()

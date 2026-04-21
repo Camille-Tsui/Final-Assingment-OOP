@@ -1,13 +1,13 @@
 package problemdomain;
 
-public abstract class Item {
+public class Item {
 	private String title;
 	private int id;
 	private String author;
 	private String genre;
 	private String publisher;
 	
-	public Item(String title, int id, String author, String genre, String publisher) {
+	public Item(int id, String title, String author, String genre, String publisher) {
 		super();
 		this.title = title;
 		this.id = id;
@@ -54,6 +54,12 @@ public abstract class Item {
 
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
+	}
+
+	@Override
+	public String toString() {
+		return "Item [title=" + title + ", id=" + id + ", author=" + author + ", genre=" + genre + ", publisher="
+				+ publisher + "]";
 	}
 	
 	

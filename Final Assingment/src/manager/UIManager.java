@@ -14,14 +14,14 @@ public class UIManager {
 	void mainMenu() {
 		int choice = 0;
 		
-		while (choice != 5) {
+		while (choice != 6) {
 			System.out.println("\n----Item Menu----");
 			System.out.println("1. Add Item.");
 			System.out.println("2. Edit Item.");
 			System.out.println("3. Remove Item.");
 			System.out.println("4. Display Items by Category.");
 			System.out.println("5. Display all Items.");
-			System.out.println("5. Exit.");
+			System.out.println("6. Exit.");
 			
 			choice = Integer.parseInt(keyboard.nextLine());
 			switch(choice)
