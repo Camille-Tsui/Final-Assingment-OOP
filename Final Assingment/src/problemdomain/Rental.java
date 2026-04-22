@@ -2,17 +2,17 @@ package problemdomain;
 
 public class Rental {
 	private int id;
-	private User user;
-	private Item item;
+	private int userId;
+	private int itemId;
 	private String startDate;
 	private String dueDate;
 	private String returnDate;
 
-	public Rental(int id, User user, Item item, String startDate, String dueDate, String returnDate) {
+	public Rental(int id, int userId, int itemId, String startDate, String dueDate, String returnDate) {
 		super();
 		this.id = id;
-		this.user = user;
-		this.item = item;
+		this.userId = userId;
+		this.itemId = itemId;
 		this.startDate = startDate;
 		this.dueDate = dueDate;
 		this.returnDate = returnDate;
@@ -22,12 +22,12 @@ public class Rental {
 		return id;
 	}
 
-	public User getUser() {
-		return user;
+	public int getUser() {
+		return userId;
 	}
 
-	public Item getItem() {
-		return item;
+	public int getItem() {
+		return itemId;
 	}
 
 	public String getStartDate() {
@@ -46,12 +46,12 @@ public class Rental {
 		this.id = id;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(int userId) {
+		this.userId = userId;
 	}
 
-	public void setItem(Item item) {
-		this.item = item;
+	public void setItem(int itemId) {
+		this.itemId = itemId;
 	}
 
 	public void setStartDate(String startDate) {
@@ -68,7 +68,7 @@ public class Rental {
 
 	@Override
 	public String toString() {
-		return "Rental [" + id + "] | User: " + user + " | Item: " + item + " | Start Date: " + startDate + " | Due Date: "
+		return "Rental [" + id + "] | User: " + userId + " | Item: " + itemId + " | Start Date: " + startDate + " | Due Date: "
 				+ dueDate + " | Return Date: " + returnDate + "]";
 	}
 }

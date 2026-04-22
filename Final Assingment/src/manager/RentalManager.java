@@ -38,7 +38,7 @@ public class RentalManager {
 	}
 
 	private boolean itemExists(int itemId) {
-		String sql = "SELECT * FROM items WHERE id = ?";
+		String sql = "SELECT * FROM item WHERE id = ?";
 
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -59,24 +59,10 @@ public class RentalManager {
 			ResultSet rs = stmt.executeQuery(sqlStatement);
 
 			while (rs.next()) {
-				User user = new User(
-						rs.getInt("user_id"),
-						"",
-						"",
-						"",
-						"");
-
-				Item item = new Item(
-						rs.getInt("item_id"),
-						"",
-						"",
-						"",
-						"");
-
 				Rental rental = new Rental(
 						rs.getInt("id"),
-						user,
-						item,
+						rs.getInt("user_id"),
+						rs.getInt("item_id"),
 						rs.getString("startDate"),
 						rs.getString("returnDate"),
 						rs.getString("date_returned"));
