@@ -5,11 +5,6 @@ import java.util.ArrayList;
 import problemdomain.User;
 
 public class UserManager {
-	private static final String SERVER = "localhost";
-	private static final int PORT = 3306;
-	private static final String DATABASE = "cprg211";
-	private static final String USERNAME = "root";
-	private static final String PASSWORD = "password";
 
 	private Connection conn;
 	private Statement stmt;
@@ -18,20 +13,12 @@ public class UserManager {
 
 	public UserManager() {
 		try {
-			connect();
+			conn = DatabaseManager.getConnection();
+			stmt = conn.createStatement();
 			loadUsers();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-	}
-
-	private void connect() throws SQLException {
-		final String DB_URL = String.format(
-				"jdbc:mariadb://%s:%d/%s?user=%s&password=%s",
-				SERVER, PORT, DATABASE, USERNAME, PASSWORD);
-
-		conn = DriverManager.getConnection(DB_URL);
-		stmt = conn.createStatement();
 	}
 
 	public void loadUsers() {

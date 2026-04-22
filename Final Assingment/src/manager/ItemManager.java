@@ -11,35 +11,21 @@ import exception.ItemNotFoundException;
 import problemdomain.Item;
 
 public class ItemManager {
-	private static final String SERVER = "localhost";
-	private static final int PORT = 3306;
-	private static final String DATABASE = "cprg211";
-	private static final String USERNAME = "root";
-	private static final String PASSWORD = "password";
-
-	private Connection conn;
-	private Statement stmt;
+	Connection conn;
+	Statement stmt;
 
 	private ArrayList<Item> items = new ArrayList<>();
 
 	public ItemManager() {
 		try {
-			connect();
+			conn = DatabaseManager.getConnection();
+			stmt = conn.createStatement();
 			loadItems();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-	private void connect() throws SQLException {
-		final String DB_URL = String.format(
-				"jdbc:mariadb://%s:%d/%s?user=%s&password=%s",
-				SERVER, PORT, DATABASE, USERNAME, PASSWORD);
-
-		conn = DriverManager.getConnection(DB_URL);
-		System.out.println("Connection to DB established.");
-		stmt = conn.createStatement();
-	}
 
 	public void loadItems() {
 		items.clear();

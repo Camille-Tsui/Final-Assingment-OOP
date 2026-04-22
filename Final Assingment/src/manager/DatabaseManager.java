@@ -17,7 +17,8 @@ public class DatabaseManager {
 	
 	public DatabaseManager () {
 		try {
-			connect();
+			conn = getConnection();
+			stmt = conn.createStatement();
 			initiateDatabase();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -25,14 +26,14 @@ public class DatabaseManager {
 		}
 	}
 	
-	private void connect() throws SQLException {
+	public static Connection getConnection() throws SQLException {
 		final String DB_URL = String.format(
 				"jdbc:mariadb://%s:%d/%s?user=%s&password=%s",
 				SERVER, PORT, DATABASE, USERNAME, PASSWORD);
 
 		conn = DriverManager.getConnection(DB_URL);
 		System.out.println("Connection to DB established.");
-		stmt = conn.createStatement();
+		return conn;
 	}
 	
 	public static void initiateDatabase() {
