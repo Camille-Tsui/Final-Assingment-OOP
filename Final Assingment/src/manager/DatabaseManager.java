@@ -18,8 +18,7 @@ public class DatabaseManager {
 	public DatabaseManager() {
 		try {
 			conn = getConnection();
-			stmt = conn.createStatement();
-			initiateDatabase();
+			stmt = conn.createStatement();;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -35,71 +34,15 @@ public class DatabaseManager {
 		return conn;
 	}
 
-	public static void initiateDatabase() {
-		try {
-			Statement statement = conn.createStatement();
-
-			statement.execute("""
-					CREATE TABLE IF NOT EXISTS item (
-						id INT(11) PRIMARY KEY,
-						title VARCHAR(50),
-						author VARCHAR(50),
-						genre VARCHAR(50),
-						publisher VARCHAR(50)
-					);
-					""");
-
-			statement.execute("""
-					CREATE TABLE IF NOT EXISTS book (
-						id INT(11) PRIMARY KEY,
-						isDamaged VARCHAR(1),
-						CONSTRAINT chk_isDamaged CHECK (isDamaged IN ('Y', 'N')),
-						FOREIGN KEY (id) REFERENCES item(id)
-					);
-					""");
-
-			statement.execute("""
-					CREATE TABLE IF NOT EXISTS cd (
-						id INT(11) PRIMARY KEY,
-						isDamaged VARCHAR(1),
-						CONSTRAINT chk_cd_isDamaged CHECK (isDamaged IN ('Y', 'N')),
-						FOREIGN KEY (id) REFERENCES item(id)
-					);
-					""");
-
-			statement.execute("""
-					CREATE TABLE IF NOT EXISTS ebook (
-						id INT(11) PRIMARY KEY,
-						fileSize INT(11),
-						FOREIGN KEY (id) REFERENCES item(id)
-					);
-					""");
-
-			statement.execute("""
-					CREATE TABLE IF NOT EXISTS users (
-						id INT(11) PRIMARY KEY,
-						firstName VARCHAR(50),
-						lastName VARCHAR(50),
-						dateOfBirth DATE,
-						phoneNumber VARCHAR(50)
-					);
-					""");
-
-			statement.execute("""
-					CREATE TABLE IF NOT EXISTS rental (
-						id INT(11) PRIMARY KEY,
-						user_id INT(11),
-						item_id INT(11),
-						startDate DATE,
-						returnDate DATE,
-						date_returned DATE,
-						FOREIGN KEY (user_id) REFERENCES users(id),
-						FOREIGN KEY (item_id) REFERENCES item(id)
-					);
-					""");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	void createItemTable() {
+		
+	}
+	
+	void createRentalTable() {
+		
+	}
+	
+	void createUserTable() {
+		
 	}
 }
