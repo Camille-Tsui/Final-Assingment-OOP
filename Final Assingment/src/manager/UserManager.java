@@ -82,6 +82,8 @@ public class UserManager {
 		try {
 			if (conn != null) {
 				conn.close();
+				System.out.println("Connection closed!");
+				System.out.println("Goodbye!");
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
