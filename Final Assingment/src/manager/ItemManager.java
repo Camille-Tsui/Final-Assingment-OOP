@@ -175,11 +175,12 @@ public class ItemManager {
 	}
 
 	public void removeItem(int id) {
-		String itemType = getItemType(id).toLowerCase();
-		String itemsqlStmt = "DELETE FROM item WHERE id = ?;";
-		String categorysqlStmt = "DELETE FROM " + itemType + " WHERE id = ?;";
-
+		String itemType = null;
 		try {
+			itemType = getItemType(id).toLowerCase();
+			String itemsqlStmt = "DELETE FROM item WHERE id = ?;";
+			String categorysqlStmt = "DELETE FROM " + itemType + " WHERE id = ?;";
+			
 			PreparedStatement stmt = conn.prepareStatement(categorysqlStmt);
 			stmt.setInt(1, id);
 			stmt.executeUpdate();
@@ -187,9 +188,12 @@ public class ItemManager {
 			stmt.setInt(1,id);
 			stmt.executeUpdate();
 			loadItems();
-		} catch (SQLException e) {
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+			} catch (ItemNotFoundException e) {
 			System.out.println(e.getMessage());
-		}
+			}
+		
 	}
 
 	public void displayByCategory(String category) {
@@ -221,6 +225,7 @@ public class ItemManager {
 	public void editItemTitle(int id, String title) {
 		String sqlStmt = "UPDATE item SET title = ? WHERE id = ?";
 		try {
+			itemExists(id);
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, title);
 			stmt.setInt(2, id);
@@ -228,12 +233,15 @@ public class ItemManager {
 			loadItems();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+		} catch (ItemNotFoundException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
 	public void editAuthor(int id, String author) {
 		String sqlStmt = "UPDATE item SET author = ? WHERE id = ?";
 		try {
+			itemExists(id);
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, author);
 			stmt.setInt(2, id);
@@ -241,12 +249,15 @@ public class ItemManager {
 			loadItems();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+		} catch (ItemNotFoundException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
 	public void editGenre(int id, String genre) {
 		String sqlStmt = "UPDATE item SET genre = ? WHERE id = ?";
 		try {
+			itemExists(id);
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, genre);
 			stmt.setInt(2, id);
@@ -254,12 +265,15 @@ public class ItemManager {
 			loadItems();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+		} catch (ItemNotFoundException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
 	public void editPublisher(int id, String publisher) {
 		String sqlStmt = "UPDATE item SET publisher = ? WHERE id = ?";
 		try {
+			itemExists(id);
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, publisher);
 			stmt.setInt(2, id);
@@ -267,12 +281,15 @@ public class ItemManager {
 			loadItems();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+		} catch (ItemNotFoundException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
 	public void editItemType(int id, String itemType) {
 		String sqlStmt = "UPDATE item SET itemType = ? WHERE id = ?";
 		try {
+			itemExists(id);
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, itemType);
 			stmt.setInt(2, id);
@@ -280,15 +297,17 @@ public class ItemManager {
 			loadItems();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+		} catch (ItemNotFoundException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 	
 	public void editDamaged(int id, String damaged) {
-		String itemType = getItemType(id).toLowerCase();
-		
-		String sqlStmt;
-		sqlStmt = "UPDATE " + itemType + "SET isDamaged = ? WHERE id = ?";
+		String itemType = null;
 		try {
+			itemType = getItemType(id).toLowerCase();
+			String sqlStmt;
+			sqlStmt = "UPDATE " + itemType + "SET isDamaged = ? WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, damaged);
 			stmt.setInt(2, id);
@@ -296,15 +315,27 @@ public class ItemManager {
 			loadItems();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+		} catch (ItemNotFoundException e) {
+			System.out.println(e.getMessage());
 		}
+		
 	}
 	
-	public String getItemType(int id) {
+	public String getItemType(int id) throws ItemNotFoundException {
 		for (Item item : items) {
 			if (item.getId() == id) {
 				return item.getClass().getSimpleName();
 			}
 		}
-		return null;
+		throw new ItemNotFoundException("Item not found");
+	}
+	
+	public boolean itemExists(int id) throws ItemNotFoundException {
+		for (Item item : items) {
+			if (item.getId() == id) {
+				return true;
+			}
+		}
+		throw new ItemNotFoundException("Item not found");
 	}
 }
