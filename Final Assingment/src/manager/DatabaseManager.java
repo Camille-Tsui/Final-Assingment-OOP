@@ -14,18 +14,17 @@ public class DatabaseManager {
 
 	private static Connection conn;
 	private Statement stmt;
-	
-	public DatabaseManager () {
+
+	public DatabaseManager() {
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
 			initiateDatabase();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static Connection getConnection() throws SQLException {
 		final String DB_URL = String.format(
 				"jdbc:mariadb://%s:%d/%s?user=%s&password=%s",
@@ -35,51 +34,71 @@ public class DatabaseManager {
 		System.out.println("Connection to DB established.");
 		return conn;
 	}
-	
+
 	public static void initiateDatabase() {
-		
 		try {
 			Statement statement = conn.createStatement();
-			
+
 			statement.execute("""
-					CREATE TABLE IF NOT EXISTS item (
-					id		INT(11) PRIMARY KEY,
-					title	VARCHAR(50),
-					author VARCHAR(50),
-					genre VARCHAR(50),
-					publisher VARCHAR (50)
+					CREATE TABLE IF NOT EXISTS items (
+						id INT(11) PRIMARY KEY,
+						title VARCHAR(50),
+						author VARCHAR(50),
+						genre VARCHAR(50),
+						publisher VARCHAR(50)
 					);
-				""");
-			
+					""");
+
 			statement.execute("""
 					CREATE TABLE IF NOT EXISTS book (
-					id INT(11) PRIMARY KEY,
-					isDamaged VARCHAR(1),
-					CONSTRAINT chk_isDamaged CHECK (isDamaged IN ('Y', 'N')),
-					FOREIGN KEY (id) REFERENCES item(id)
+						id INT(11) PRIMARY KEY,
+						isDamaged VARCHAR(1),
+						CONSTRAINT chk_isDamaged CHECK (isDamaged IN ('Y', 'N')),
+						FOREIGN KEY (id) REFERENCES items(id)
 					);
-				""");
-			
+					""");
+
 			statement.execute("""
 					CREATE TABLE IF NOT EXISTS cd (
-					id INT(11) PRIMARY KEY,
-					isDamaged VARCHAR(1),
-					CONSTRAINT chk_isDamaged CHECK (isDamaged IN ('Y', 'N')),
-					FOREIGN KEY (id) REFERENCES item(id)
+						id INT(11) PRIMARY KEY,
+						isDamaged VARCHAR(1),
+						CONSTRAINT chk_cd_isDamaged CHECK (isDamaged IN ('Y', 'N')),
+						FOREIGN KEY (id) REFERENCES items(id)
 					);
-				""");
-			
+					""");
+
 			statement.execute("""
 					CREATE TABLE IF NOT EXISTS ebook (
-					id INT(11) PRIMARY KEY,
-					fileSize INT(11),
-					FOREIGN KEY (id) REFERENCES item(id)
+						id INT(11) PRIMARY KEY,
+						fileSize INT(11),
+						FOREIGN KEY (id) REFERENCES items(id)
 					);
-				""");
-			
-			
+					""");
+
+			statement.execute("""
+					CREATE TABLE IF NOT EXISTS users (
+						id INT(11) PRIMARY KEY,
+						firstName VARCHAR(50),
+						lastName VARCHAR(50),
+						dateOfBirth DATE,
+						phoneNumber VARCHAR(50)
+					);
+					""");
+
+			statement.execute("""
+					CREATE TABLE IF NOT EXISTS rental (
+						id INT(11) PRIMARY KEY,
+						user_id INT(11),
+						item_id INT(11),
+						startDate DATE,
+						returnDate DATE,
+						date_returned DATE,
+						FOREIGN KEY (user_id) REFERENCES users(id),
+						FOREIGN KEY (item_id) REFERENCES items(id)
+					);
+					""");
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
