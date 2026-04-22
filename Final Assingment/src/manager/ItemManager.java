@@ -38,7 +38,7 @@ public class ItemManager {
 
 			while (rs.next()) {
 				boolean isDamaged;
-				if (rs.getString("isDamaged") == "Y") {
+				if (rs.getString("isDamaged").equals("Y")) {
 					isDamaged = true;
 				}
 				else {
@@ -62,7 +62,7 @@ public class ItemManager {
 
 			while (rs.next()) {
 				boolean isDamaged;
-				if (rs.getString("isDamaged") == "Y") {
+				if (rs.getString("isDamaged").equals("Y")) {
 					isDamaged = true;
 				}
 				else {
@@ -307,9 +307,9 @@ public class ItemManager {
 		try {
 			itemType = getItemType(id).toLowerCase();
 			String sqlStmt;
-			sqlStmt = "UPDATE " + itemType + "SET isDamaged = ? WHERE id = ?";
+			sqlStmt = "UPDATE " + itemType + " SET isDamaged = ? WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
-			stmt.setString(1, damaged);
+			stmt.setString(1, damaged.toUpperCase());
 			stmt.setInt(2, id);
 			stmt.executeUpdate();
 			loadItems();

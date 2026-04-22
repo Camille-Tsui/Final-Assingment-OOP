@@ -153,8 +153,13 @@ public class ItemUIManager {
 		case 5:
 			System.out.println("Is item Damaged? (Y/N)");
 			String isDamaged = keyboard.nextLine();
-			im.editDamaged(itemId, isDamaged);
-			System.out.println("Item type updated!");
+			if (isDamaged.equalsIgnoreCase("Y") || isDamaged.equalsIgnoreCase("N")) {
+				im.editDamaged(itemId, isDamaged);
+				System.out.println("Item Damage updated!");
+			}
+			else {
+				System.out.println("Invalid option.");
+			}
 			break;
 
 		default:
