@@ -2,8 +2,6 @@ package manager;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import problemdomain.Item;
 
 public class ItemManager {
@@ -12,65 +10,56 @@ public class ItemManager {
 	private static final String DATABASE = "cprg211";
 	private static final String USERNAME = "root";
 	private static final String PASSWORD = "password";
-	
-	
+
 	private Connection conn;
 	private Statement stmt;
-	
-	ArrayList<Item> items = new ArrayList<>();
-	
-	public ItemManager()
-	{
-		try
-		{
+
+	private ArrayList<Item> items = new ArrayList<>();
+
+	public ItemManager() {
+		try {
 			connect();
 			loadItems();
-		} catch (SQLException e)
-		{
+		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
-	
-	private void connect() throws SQLException
-	{
-		final String DB_URL = String.format("jdbc:mariadb://%s:%d/%s?user=%s&password=%s", SERVER, PORT, DATABASE, USERNAME, PASSWORD);
+
+	private void connect() throws SQLException {
+		final String DB_URL = String.format(
+				"jdbc:mariadb://%s:%d/%s?user=%s&password=%s",
+				SERVER, PORT, DATABASE, USERNAME, PASSWORD);
+
 		conn = DriverManager.getConnection(DB_URL);
 		System.out.println("Connection to DB established.");
-		stmt= conn.createStatement();	
+		stmt = conn.createStatement();
 	}
-	
+
 	public void loadItems() {
 		String sqlStatement = "SELECT * FROM items;";
 		items.clear();
-		try
-		{
+
+		try {
 			ResultSet rs = stmt.executeQuery(sqlStatement);
-			
+
 			while (rs.next()) {
-				Item item = new Item (
+				Item item = new Item(
 						rs.getInt("id"),
 						rs.getString("title"),
 						rs.getString("author"),
 						rs.getString("genre"),
-						rs.getString("publisher")
-						);
+						rs.getString("publisher"));
 				items.add(item);
 			}
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	// dont forget to add error handling
-	// also needs to be improved
-	void addItem(String itemType, int id, String title, String author, String genre, String publisher) {
 
-		
+	public void addItem(String itemType, int id, String title, String author, String genre, String publisher) {
 		String sqlStmt = "INSERT INTO items (itemType, id, title, author, genre, publisher) VALUES (?, ?, ?, ?, ?, ?)";
-		
-		try
-		{
+
+		try {
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, itemType);
 			stmt.setInt(2, id);
@@ -78,68 +67,60 @@ public class ItemManager {
 			stmt.setString(4, author);
 			stmt.setString(5, genre);
 			stmt.setString(6, publisher);
-			// Execute the insert operation
-	        stmt.executeUpdate();
-	        loadItems();
-			
-		} catch (SQLException e)
-		{
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	
-	void removeItem(int id) {
-		String sqlStmt = "DELETE FROM items WHERE id = ?;";
-		
-		try
-		{
-			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
-			stmt.setInt(1, id);
 			stmt.executeUpdate();
 			loadItems();
-			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	void displayByCategory() {
-		
+
+	public void removeItem(int id) {
+		String sqlStmt = "DELETE FROM items WHERE id = ?;";
+
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
+			stmt.setInt(1, id);
+			stmt.executeUpdate();
+			loadItems();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 	}
-	
-	
+
+	public void displayByCategory(String genre) {
+		for (Item item : items) {
+			if (item.getGenre().equalsIgnoreCase(genre)) {
+				System.out.println(item);
+			}
+		}
+	}
+
 	public void displayAll() {
 		for (Item item : items) {
 			System.out.println(item);
 		}
 	}
-	
-	void disconnect()
-	{
-		try
-		{
-			conn.close();
-			System.out.println("Connection closed!");
-			System.out.println("Goodbye!");
-		} catch (SQLException e)
-		{
-			// TODO Auto-generated catch block
+
+	public void disconnect() {
+		try {
+			if (conn != null) {
+				conn.close();
+				System.out.println("Connection closed!");
+				System.out.println("Goodbye!");
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
-	//edit item
 	public void editItemTitle(int id, String title) {
 		String sqlStmt = "UPDATE items SET title = ? WHERE id = ?";
-		try
-		{
+		try {
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, title);
 			stmt.setInt(2, id);
 			stmt.executeUpdate();
-			
+			loadItems();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -147,61 +128,53 @@ public class ItemManager {
 
 	public void editAuthor(int id, String author) {
 		String sqlStmt = "UPDATE items SET author = ? WHERE id = ?";
-		try
-		{
+		try {
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, author);
 			stmt.setInt(2, id);
 			stmt.executeUpdate();
-			
+			loadItems();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
 
 	public void editGenre(int id, String genre) {
 		String sqlStmt = "UPDATE items SET genre = ? WHERE id = ?";
-		try
-		{
+		try {
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, genre);
 			stmt.setInt(2, id);
 			stmt.executeUpdate();
-			
+			loadItems();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
 
 	public void editPublisher(int id, String publisher) {
 		String sqlStmt = "UPDATE items SET publisher = ? WHERE id = ?";
-		try
-		{
+		try {
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, publisher);
 			stmt.setInt(2, id);
 			stmt.executeUpdate();
-			
+			loadItems();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
 
 	public void editItemType(int id, String itemType) {
 		String sqlStmt = "UPDATE items SET itemType = ? WHERE id = ?";
-		try
-		{
+		try {
 			PreparedStatement stmt = conn.prepareStatement(sqlStmt);
 			stmt.setString(1, itemType);
 			stmt.setInt(2, id);
 			stmt.executeUpdate();
-			
+			loadItems();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
 }

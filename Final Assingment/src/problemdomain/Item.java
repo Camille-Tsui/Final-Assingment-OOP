@@ -20,7 +20,7 @@ public class Item {
 		return title;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -61,6 +61,4 @@ public class Item {
 		return "Item [title=" + title + ", id=" + id + ", author=" + author + ", genre=" + genre + ", publisher="
 				+ publisher + "]";
 	}
-	
-	
 }
