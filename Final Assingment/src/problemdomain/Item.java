@@ -1,8 +1,8 @@
 package problemdomain;
 
-public class Item {
-	private String title;
+public abstract class Item {
 	private int id;
+	private String title;
 	private String author;
 	private String genre;
 	private String publisher;
@@ -58,7 +58,7 @@ public class Item {
 
 	@Override
 	public String toString() {
-		return "Item [title=" + title + ", id=" + id + ", author=" + author + ", genre=" + genre + ", publisher="
-				+ publisher + "]";
+		return "ID: [" + id + "] | Title: " + title + " | Author: " + author + " | Genre:" + genre + " | Publisher: "
+				+ publisher;
 	}
 }

@@ -18,6 +18,7 @@ public class CD extends Item {
 
 	@Override
 	public String toString() {
-		return "CD [isDamaged=" + isDamaged + ", " + super.toString() + "]";
+		return "CD " + super.toString() + " | Damaged: " + isDamaged;
 	}
+
 }

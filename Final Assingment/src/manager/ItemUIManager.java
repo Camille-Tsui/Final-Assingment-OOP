@@ -27,21 +27,7 @@ public class ItemUIManager {
 
 			switch (choice) {
 			case 1:
-				System.out.println("Enter Item Type:");
-				String itemType = keyboard.nextLine();
-				System.out.println("Enter Id: ");
-				int id = Integer.parseInt(keyboard.nextLine());
-				System.out.println("Enter Title: ");
-				String title = keyboard.nextLine();
-				System.out.println("Enter Author: ");
-				String author = keyboard.nextLine();
-				System.out.println("Enter Genre: ");
-				String genre = keyboard.nextLine();
-				System.out.println("Enter Publisher: ");
-				String publisher = keyboard.nextLine();
-
-				im.addItem(itemType, id, title, author, genre, publisher);
-				System.out.println("Item has been added!");
+				addItem();
 				break;
 
 			case 2:
@@ -56,7 +42,8 @@ public class ItemUIManager {
 				break;
 
 			case 4:
-				System.out.println("Enter Genre: ");
+				System.out.println("Choose a Category");
+				System.out.println("Book, EBook, CD");
 				String category = keyboard.nextLine();
 				im.displayByCategory(category);
 				break;
@@ -74,14 +61,49 @@ public class ItemUIManager {
 			}
 		}
 	}
-
+	
+	void addItem() {
+		System.out.println("Choose an Item Type");
+		System.out.println("Book, EBook, CD");
+		System.out.println("Enter Item Type:");
+		String itemType = keyboard.nextLine();
+		if (itemType.equals("Book") || itemType.equals("EBook") || itemType.equals("CD")) {
+			System.out.println("Enter Id: ");
+			int id = Integer.parseInt(keyboard.nextLine());
+			System.out.println("Enter Title: ");
+			String title = keyboard.nextLine();
+			System.out.println("Enter Author: ");
+			String author = keyboard.nextLine();
+			System.out.println("Enter Genre: ");
+			String genre = keyboard.nextLine();
+			System.out.println("Enter Publisher: ");
+			String publisher = keyboard.nextLine();
+			
+			switch (itemType) {
+			case "Book":
+				im.addBook(id, title, author, genre, publisher);
+				break;
+			case "EBook":
+				System.out.println("Enter file size: ");
+				int fileSize = Integer.parseInt(keyboard.nextLine());
+				im.addEBook(id, title, author, genre, publisher, fileSize);
+				break;
+			case "CD":
+				im.addCD(id, title, author, genre, publisher);
+			}
+			System.out.println("Item has been added!");
+		}
+		else {
+			System.out.println("Invalid Item Type!");
+		}
+	}
 	void editItemMenu() {
 		System.out.println("\nWhat would you like to edit?");
 		System.out.println("1. Title");
 		System.out.println("2. Author");
 		System.out.println("3. Genre");
 		System.out.println("4. Publisher");
-		System.out.println("5. Item Type");
+		System.out.println("5. Damage");
 
 		int choice = Integer.parseInt(keyboard.nextLine());
 		int itemId = 0;
@@ -121,9 +143,9 @@ public class ItemUIManager {
 			break;
 
 		case 5:
-			System.out.println("Enter new Item Type: ");
-			String itemType = keyboard.nextLine();
-			im.editItemType(itemId, itemType);
+			System.out.println("Is item Damaged? (Y/N)");
+			String isDamaged = keyboard.nextLine();
+			im.editDamaged(itemId, isDamaged);
 			System.out.println("Item type updated!");
 			break;
 

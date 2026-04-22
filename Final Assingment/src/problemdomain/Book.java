@@ -7,4 +7,11 @@ public class Book extends Item {
 		super(id, title, author, genre, publisher);
 		this.isDamaged = isDamaged;
 	}
+
+	@Override
+	public String toString() {
+		return "Book " + super.toString() + " | Damaged: " + isDamaged;
+	}
+
+
 }

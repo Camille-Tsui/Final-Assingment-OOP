@@ -2,6 +2,7 @@ package app;
 
 import java.util.Scanner;
 
+import manager.DatabaseManager;
 import manager.ItemUIManager;
 import manager.UserUIManager;
 import manager.RentalUIManager;
@@ -9,6 +10,8 @@ import manager.RentalUIManager;
 public class AppDriver {
 
 	public static void main(String[] args) {
+		new DatabaseManager();
+		
 		Scanner keyboard = new Scanner(System.in);
 
 		System.out.println("Choose a module:");
