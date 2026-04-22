@@ -305,7 +305,6 @@ public class ItemManager {
 				return item.getClass().getSimpleName();
 			}
 		}
-		//throw new ItemNotFoundException("Item not found");
 		return null;
 	}
 }

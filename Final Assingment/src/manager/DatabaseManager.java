@@ -40,7 +40,7 @@ public class DatabaseManager {
 			Statement statement = conn.createStatement();
 
 			statement.execute("""
-					CREATE TABLE IF NOT EXISTS items (
+					CREATE TABLE IF NOT EXISTS item (
 						id INT(11) PRIMARY KEY,
 						title VARCHAR(50),
 						author VARCHAR(50),

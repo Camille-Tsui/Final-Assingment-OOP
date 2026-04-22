@@ -2,16 +2,18 @@ package manager;
 
 import java.util.Scanner;
 
+
+
 public class ItemUIManager {
 	private ItemManager im;
 	private Scanner keyboard = new Scanner(System.in);
 
 	public ItemUIManager() {
 		im = new ItemManager();
-		mainMenu();
+		itemMenu();
 	}
 
-	void mainMenu() {
+	void itemMenu() {
 		int choice = 0;
 
 		while (choice != 6) {
@@ -45,7 +47,12 @@ public class ItemUIManager {
 				System.out.println("Choose a Category");
 				System.out.println("Book, EBook, CD");
 				String category = keyboard.nextLine();
-				im.displayByCategory(category);
+				if (category.equalsIgnoreCase("Book") || category.equalsIgnoreCase("EBook") || category.equalsIgnoreCase("CD")) {
+					im.displayByCategory(category);					
+				}
+				else {
+					System.out.println("Invalid category.");
+				}
 				break;
 
 			case 5:
@@ -57,17 +64,18 @@ public class ItemUIManager {
 				break;
 
 			default:
-				System.out.println("Incorrect choice. Enter 1 to 6.");
+				System.out.println("Invalid choice.");
 			}
 		}
 	}
 	
-	void addItem() {
+	void addItem(){
 		System.out.println("Choose an Item Type");
 		System.out.println("Book, EBook, CD");
 		System.out.println("Enter Item Type:");
 		String itemType = keyboard.nextLine();
-		if (itemType.equals("Book") || itemType.equals("EBook") || itemType.equals("CD")) {
+		// check category is correct
+		if (itemType.equalsIgnoreCase("Book") || itemType.equalsIgnoreCase("EBook") || itemType.equalsIgnoreCase("CD")) {
 			System.out.println("Enter Id: ");
 			int id = Integer.parseInt(keyboard.nextLine());
 			System.out.println("Enter Title: ");
@@ -94,7 +102,7 @@ public class ItemUIManager {
 			System.out.println("Item has been added!");
 		}
 		else {
-			System.out.println("Invalid Item Type!");
+			System.out.println("Invalid category.");
 		}
 	}
 	void editItemMenu() {
