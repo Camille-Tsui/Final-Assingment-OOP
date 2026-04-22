@@ -40,7 +40,7 @@ public class DatabaseManager {
 			Statement statement = conn.createStatement();
 
 			statement.execute("""
-					CREATE TABLE IF NOT EXISTS items (
+					CREATE TABLE IF NOT EXISTS item (
 						id INT(11) PRIMARY KEY,
 						title VARCHAR(50),
 						author VARCHAR(50),
@@ -54,7 +54,7 @@ public class DatabaseManager {
 						id INT(11) PRIMARY KEY,
 						isDamaged VARCHAR(1),
 						CONSTRAINT chk_isDamaged CHECK (isDamaged IN ('Y', 'N')),
-						FOREIGN KEY (id) REFERENCES items(id)
+						FOREIGN KEY (id) REFERENCES item(id)
 					);
 					""");
 
@@ -63,7 +63,7 @@ public class DatabaseManager {
 						id INT(11) PRIMARY KEY,
 						isDamaged VARCHAR(1),
 						CONSTRAINT chk_cd_isDamaged CHECK (isDamaged IN ('Y', 'N')),
-						FOREIGN KEY (id) REFERENCES items(id)
+						FOREIGN KEY (id) REFERENCES item(id)
 					);
 					""");
 
@@ -71,7 +71,7 @@ public class DatabaseManager {
 					CREATE TABLE IF NOT EXISTS ebook (
 						id INT(11) PRIMARY KEY,
 						fileSize INT(11),
-						FOREIGN KEY (id) REFERENCES items(id)
+						FOREIGN KEY (id) REFERENCES item(id)
 					);
 					""");
 
@@ -94,7 +94,7 @@ public class DatabaseManager {
 						returnDate DATE,
 						date_returned DATE,
 						FOREIGN KEY (user_id) REFERENCES users(id),
-						FOREIGN KEY (item_id) REFERENCES items(id)
+						FOREIGN KEY (item_id) REFERENCES item(id)
 					);
 					""");
 
